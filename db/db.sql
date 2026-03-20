@@ -146,10 +146,20 @@ ALTER TABLE `categorie`
   ADD PRIMARY KEY (`ID_categorie`);
 
 --
--- Index pour la table `categorie_produit`
---
 ALTER TABLE `categorie_produit`
   ADD PRIMARY KEY (`id_produit`,`id_categorie`);
+
+-- Contraintes de clés étrangères pour relier les tables
+ALTER TABLE `categorie_produit`
+  ADD CONSTRAINT `fk_categorie_produit_produit` FOREIGN KEY (`id_produit`) REFERENCES `produits`(`id_produit`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_categorie_produit_categorie` FOREIGN KEY (`id_categorie`) REFERENCES `categorie`(`ID_categorie`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `commande`
+  ADD CONSTRAINT `fk_commande_client` FOREIGN KEY (`ID_client`) REFERENCES `client`(`id_client`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `ligne_commande`
+  ADD CONSTRAINT `fk_ligne_commande_produit` FOREIGN KEY (`id_produits`) REFERENCES `produits`(`id_produit`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ligne_commande_commande` FOREIGN KEY (`id_commande`) REFERENCES `commande`(`ID_commande`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Index pour la table `client`
